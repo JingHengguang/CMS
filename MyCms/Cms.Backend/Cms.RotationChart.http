@@ -1,0 +1,40 @@
+
+### 查询所有轮播图
+GET http://localhost:5000/RotationChart?currentPage=1&pageSize=5 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibGFvaHUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MTg2NDgzNCwiaXNzIjoiamhnIn0.fnwyaYniniSxs5p-qGySGv5_HlCSMdLFTWta6ACdmUU
+
+###添加轮播图
+POST http://localhost:5000/RotationChart HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MTA4NjM2OCwiaXNzIjoiamhnIn0.Wu-mswWlIz88Nl0i2tvx4xAXHjRwWfrUsoXv3oAcf6k
+Content-Type: application/json
+
+{
+    "Picture":"UploadFiles\\Images\\19.jpg",
+    "Remarks":"🛀❤"
+}
+
+###模糊查询轮播图
+POST http://localhost:5000/RotationChart/GetRotationChartsByremark HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MTA4NjM2OCwiaXNzIjoiamhnIn0.Wu-mswWlIz88Nl0i2tvx4xAXHjRwWfrUsoXv3oAcf6k
+Content-Type: application/json
+
+{
+    "Remarks":"子",
+    "CurrentPage":1,
+    "PageSize":5
+}
+
+
+###修改轮播图  
+PUT  http://localhost:5000/RotationChart/3 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MTA4NjM2OCwiaXNzIjoiamhnIn0.Wu-mswWlIz88Nl0i2tvx4xAXHjRwWfrUsoXv3oAcf6k
+Content-Type: application/json
+
+{
+    "Picture":"UploadFiles\\Images\\19.jpg",
+    "Remarks":"🛀❤"
+}
+
+###删除轮播图
+DELETE http://localhost:5000/RotationChart/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MTA4NjM2OCwiaXNzIjoiamhnIn0.Wu-mswWlIz88Nl0i2tvx4xAXHjRwWfrUsoXv3oAcf6k

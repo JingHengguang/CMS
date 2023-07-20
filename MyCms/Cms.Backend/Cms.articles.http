@@ -1,0 +1,55 @@
+### 获取所有文章
+GET http://localhost:5000/articles?currentPage=1&pageSize=5 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MTczMzc3NywiaXNzIjoiamhnIn0.phMvSOK2blDZnYVp-N5lsiYr8emPxatfNrumFXMIBFo
+### ID获取文章
+GET http://localhost:5000/articles/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MTM5NzIyMCwiaXNzIjoiamhnIn0.KIEYVItZgk24yUKNBpL_ToHc-REsPTSvyPpArs6Ow5w
+
+
+### userID 获取文章
+GET http://localhost:5000/articles/userId/2?currentPage=1&pageSize=5  HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MTgwNTIyNSwiaXNzIjoiamhnIn0.V-vCI11HVp7qMp1HWZ7dE-LsvU56M4dO9Xe27YpQGJA
+
+
+
+### 添加文章内容
+POST http://localhost:5000/articles HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MDUyNjE4MSwiaXNzIjoiamhnIn0.5i3zZA0b4yxRLgTZh95GRQJSU1rSpc7ZETpYgI7hI-E
+Content-Type: application/json
+
+{
+    "Title":"12345678",
+    "Synopsis":"123",
+    "Remakes":"",
+    "TypeId":"2",
+    "User":"uu",
+    "Words":"<p>132</p>",
+    "Picture":"",
+    "Video":"",
+    "IsRecommend":true
+}
+
+### 根据输入框的内容 查询对应的文章
+POST http://localhost:5000/articles/queryArticle HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTYyODE0MDA2NCwiaXNzIjoiamhnIn0.W5aBEi-BrDx-f42myMDRQ3Y91PQicWd9v52352wAvts
+Content-Type: application/json
+
+{
+    "QueryArticleDatas":"苏"
+}
+
+###   修改文章信息
+PUT http://localhost:5000/articles/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTYyODU2MzE5NiwiaXNzIjoiamhnIn0.7x2hMHOyfCBy_U3_1ZBaQMrGTuOhPYL09kVUChLLPUI
+Content-Type: application/json
+
+{
+    "Title":"aaa",
+    "Synopsis":"",
+    "IsRecommend" :"true"
+
+}
+
+### 根据id删除文章
+DELETE http://localhost:5000/articles/13 HTTP/1.1
+

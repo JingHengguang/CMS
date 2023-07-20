@@ -1,0 +1,37 @@
+### 用于上传文章封面图文件
+POST http://localhost:5000/files/uploadfiles HTTP/1.1
+Content-Type: application/json
+
+{
+   
+}
+
+### 获取文章封面图文件
+###
+GET http://localhost:5000/files/picPath?picUrl=UploadFiles\\Images\\1e02e7a61bee479281ff8e2f5143690f.jpeg
+
+
+### 用于上传头像
+POST http://localhost:5000/files/uploadAvatar HTTP/1.1
+Content-Type: application/json
+
+{
+   
+}
+
+### 获取头像
+###
+GET http://localhost:5000/files/avatarPath?avatarUrl=UploadFiles/Images/default.jpg
+
+
+### 用于上传轮播图
+POST http://localhost:5000/files/uploadRotationChart HTTP/1.1
+Content-Type: application/json
+
+{
+   
+}
+
+### 获取轮播图
+GET http://localhost:5000/files/RotationChart?RotationChartUrl=UploadFiles/Images/b54ad7e38fdf4d5e80739b097a353157.jpeg
+

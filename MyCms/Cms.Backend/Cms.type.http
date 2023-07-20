@@ -1,0 +1,39 @@
+
+### 查询所有类型
+GET http://localhost:5000/ArticleTypes?currentPage=1&pageSize=5 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MTczMjM5NSwiaXNzIjoiamhnIn0.m8Ew11L_188cMLrQ0c3TGoszNXZU4Yqt-96VoBt0N7A
+
+### 模糊查询
+POST http://localhost:5000/ArticleTypes/GetTypeByTypeName HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MDU5MDczNywiaXNzIjoiamhnIn0.p3wk3xUvJ1FsJWX6DMsk_neLjVF03vyZluPoKbxRTt4
+Content-Type: application/json
+
+{
+   "Type":"美",
+   "CurrentPage":"1",
+   "PageSize":"5"
+}
+
+### 新增类型
+POST http://localhost:5000/ArticleTypes HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MDU5MDczNywiaXNzIjoiamhnIn0.p3wk3xUvJ1FsJWX6DMsk_neLjVF03vyZluPoKbxRTt4
+Content-Type: application/json
+
+{
+    "Type":"国家大事",
+    "Remakes":"你必须关注"
+}
+
+
+### 修改类型
+PUT http://localhost:5000/ArticleTypes/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MDU5MDczNywiaXNzIjoiamhnIn0.p3wk3xUvJ1FsJWX6DMsk_neLjVF03vyZluPoKbxRTt4
+Content-Type: application/json
+
+{
+    "Type":"",
+    "Remakes":"123"
+}
+###删除类型
+DELETE http://localhost:5000/ArticleTypes/1001222 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTY2MDU5MDczNywiaXNzIjoiamhnIn0.p3wk3xUvJ1FsJWX6DMsk_neLjVF03vyZluPoKbxRTt4
