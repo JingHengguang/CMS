@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cms.Backend.Api.Migrations
 {
     [DbContext(typeof(CmsBackendDb))]
-    [Migration("20220903013301_init")]
-    partial class init
+    [Migration("20230723080601_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace Cms.Backend.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ContentId")
+                    b.Property<int>("ContentsId")
                         .HasColumnType("int");
 
                     b.Property<string>("CoverPictureUrl")
@@ -76,7 +76,7 @@ namespace Cms.Backend.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContentId");
+                    b.HasIndex("ContentsId");
 
                     b.HasIndex("TypeId");
 
@@ -85,7 +85,7 @@ namespace Cms.Backend.Api.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("Cms.Backend.Api.Model.AuditInfo", b =>
+            modelBuilder.Entity("Cms.Backend.Api.Model.AuditInfos", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,7 +145,7 @@ namespace Cms.Backend.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuditInfo");
+                    b.ToTable("AuditInfos");
                 });
 
             modelBuilder.Entity("Cms.Backend.Api.Model.Broadcast_map", b =>
@@ -181,12 +181,12 @@ namespace Cms.Backend.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedTime = "2022-09-03 09:33:01",
+                            CreatedTime = "2023-07-23 16:06:01",
                             IsActived = true,
                             IsDeleted = false,
                             Picture = "UploadFiles\\DefaultImage\\bj001.jpg",
                             Remarks = "种子数据",
-                            UpdatedTime = "2022-09-03 09:33:01"
+                            UpdatedTime = "2023-07-23 16:06:01"
                         });
                 });
 
@@ -197,10 +197,11 @@ namespace Cms.Backend.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ArticleId")
+                    b.Property<int>("ArticlesId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Comment")
+                    b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedTime")
@@ -218,20 +219,17 @@ namespace Cms.Backend.Api.Migrations
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ToUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UpdatedTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
+                    b.HasIndex("ArticlesId");
 
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Cms.Backend.Api.Model.Content", b =>
+            modelBuilder.Entity("Cms.Backend.Api.Model.Contents", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -265,7 +263,7 @@ namespace Cms.Backend.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Content");
+                    b.ToTable("Contents");
                 });
 
             modelBuilder.Entity("Cms.Backend.Api.Model.Corporate_information", b =>
@@ -329,13 +327,22 @@ namespace Cms.Backend.Api.Migrations
                     b.Property<int>("ArticleId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ArticlesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreatedTime")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FromUserId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActived")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPraise")
                         .HasColumnType("bit");
 
                     b.Property<string>("Remarks")
@@ -344,13 +351,11 @@ namespace Cms.Backend.Api.Migrations
                     b.Property<string>("UpdatedTime")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("applaud")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ArticlesId");
+
+                    b.HasIndex("FromUserId");
 
                     b.ToTable("Likes");
                 });
@@ -401,6 +406,9 @@ namespace Cms.Backend.Api.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Permission")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
@@ -419,32 +427,35 @@ namespace Cms.Backend.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedTime = "2022-09-03 09:33:01",
+                            CreatedTime = "2023-07-23 16:06:01",
                             IsActived = true,
                             IsDeleted = false,
+                            Permission = "",
                             Remarks = "种子数据",
                             RoleName = "超级管理员",
-                            UpdatedTime = "2022-09-03 09:33:01"
+                            UpdatedTime = "2023-07-23 16:06:01"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedTime = "2022-09-03 09:33:01",
+                            CreatedTime = "2023-07-23 16:06:01",
                             IsActived = true,
                             IsDeleted = false,
+                            Permission = "",
                             Remarks = "种子数据",
                             RoleName = "管理员",
-                            UpdatedTime = "2022-09-03 09:33:01"
+                            UpdatedTime = "2023-07-23 16:06:01"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedTime = "2022-09-03 09:33:01",
+                            CreatedTime = "2023-07-23 16:06:01",
                             IsActived = true,
                             IsDeleted = false,
+                            Permission = "",
                             Remarks = "种子数据",
                             RoleName = "普通用户",
-                            UpdatedTime = "2022-09-03 09:33:01"
+                            UpdatedTime = "2023-07-23 16:06:01"
                         });
                 });
 
@@ -455,10 +466,17 @@ namespace Cms.Backend.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AvatarUrl")
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Avatar")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActived")
@@ -471,17 +489,31 @@ namespace Cms.Backend.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("QQNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedTime")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserPhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
                     b.Property<int>("UserRoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WeChat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("eMail")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -494,13 +526,15 @@ namespace Cms.Backend.Api.Migrations
                         new
                         {
                             Id = 1,
-                            AvatarUrl = "UploadFiles\\DefaultImage\\default.jpg",
-                            CreatedTime = "2022-09-03 09:33:01",
+                            Age = 20,
+                            Avatar = "UploadFiles\\DefaultImage\\default.jpg",
+                            CreatedTime = "2023-07-23 16:06:01",
                             IsActived = true,
                             IsDeleted = false,
                             Password = "123",
                             Remarks = "种子数据",
-                            UpdatedTime = "2022-09-03 09:33:01",
+                            UpdatedTime = "2023-07-23 16:06:01",
+                            UserPhoneNumber = "18295778879",
                             UserRoleId = 1,
                             Username = "admin"
                         });
@@ -508,9 +542,9 @@ namespace Cms.Backend.Api.Migrations
 
             modelBuilder.Entity("Cms.Backend.Api.Model.Articles", b =>
                 {
-                    b.HasOne("Cms.Backend.Api.Model.Content", "Content")
+                    b.HasOne("Cms.Backend.Api.Model.Contents", "Contents")
                         .WithMany("Article")
-                        .HasForeignKey("ContentId")
+                        .HasForeignKey("ContentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -526,7 +560,7 @@ namespace Cms.Backend.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Content");
+                    b.Navigation("Contents");
 
                     b.Navigation("Type");
 
@@ -535,13 +569,30 @@ namespace Cms.Backend.Api.Migrations
 
             modelBuilder.Entity("Cms.Backend.Api.Model.Comments", b =>
                 {
-                    b.HasOne("Cms.Backend.Api.Model.Articles", "Article")
+                    b.HasOne("Cms.Backend.Api.Model.Articles", "Articles")
                         .WithMany("Comments")
-                        .HasForeignKey("ArticleId")
+                        .HasForeignKey("ArticlesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Article");
+                    b.Navigation("Articles");
+                });
+
+            modelBuilder.Entity("Cms.Backend.Api.Model.Likes", b =>
+                {
+                    b.HasOne("Cms.Backend.Api.Model.Articles", "Articles")
+                        .WithMany("Likes")
+                        .HasForeignKey("ArticlesId");
+
+                    b.HasOne("Cms.Backend.Api.Model.Users", "FromUser")
+                        .WithMany("Likes")
+                        .HasForeignKey("FromUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Articles");
+
+                    b.Navigation("FromUser");
                 });
 
             modelBuilder.Entity("Cms.Backend.Api.Model.Users", b =>
@@ -558,9 +609,11 @@ namespace Cms.Backend.Api.Migrations
             modelBuilder.Entity("Cms.Backend.Api.Model.Articles", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Likes");
                 });
 
-            modelBuilder.Entity("Cms.Backend.Api.Model.Content", b =>
+            modelBuilder.Entity("Cms.Backend.Api.Model.Contents", b =>
                 {
                     b.Navigation("Article");
                 });
@@ -578,6 +631,8 @@ namespace Cms.Backend.Api.Migrations
             modelBuilder.Entity("Cms.Backend.Api.Model.Users", b =>
                 {
                     b.Navigation("Article");
+
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

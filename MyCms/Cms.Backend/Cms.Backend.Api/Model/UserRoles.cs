@@ -7,9 +7,12 @@ namespace Cms.Backend.Api.Model
     public class UserRoles : BaseModel
     {
         [Required]
-        public string  RoleName { get; set; }
-        
-       
+        public string RoleName { get; set; }
+
+        //权限
+        public string Permission { get; set; }
+
+
         public IEnumerable<Users> Users { get; set; }
     }
 }

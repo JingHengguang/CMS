@@ -26,6 +26,7 @@ namespace Cms.Backend.Api.Model
                 {
                     Id = 1,
                     RoleName = "超级管理员",
+                    Permission = "",
                     IsActived = true,
                     IsDeleted = false,
                     CreatedTime = currentData,
@@ -36,6 +37,7 @@ namespace Cms.Backend.Api.Model
                  {
                      Id = 2,
                      RoleName = "管理员",
+                     Permission = "",
                      IsActived = true,
                      IsDeleted = false,
                      CreatedTime = currentData,
@@ -46,6 +48,7 @@ namespace Cms.Backend.Api.Model
                 {
                     Id = 3,
                     RoleName = "普通用户",
+                    Permission = "",
                     IsActived = true,
                     IsDeleted = false,
                     CreatedTime = currentData,
@@ -60,13 +63,16 @@ namespace Cms.Backend.Api.Model
                     Id = 1,
                     Username = "admin",
                     Password = "123",
+                    Age = 20,
+                    Avatar = "UploadFiles\\DefaultImage\\default.jpg",
+                    UserPhoneNumber = "18295778879",
+                    UserRoleId = 1,
                     IsActived = true,
                     IsDeleted = false,
                     CreatedTime = currentData,
                     UpdatedTime = currentData,
-                    UserRoleId = 1,
                     Remarks = "种子数据",
-                    AvatarUrl = "UploadFiles\\DefaultImage\\default.jpg",
+
 
                 }
             );
@@ -154,7 +160,7 @@ namespace Cms.Backend.Api.Model
             //         Remarks = "种子数据"
             //     }
             // );
-            
+
 
             /// <summary>
             /// 初始化轮播图

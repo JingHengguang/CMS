@@ -24,13 +24,13 @@ namespace Cms.Backend.Db
         public DbSet<Articles> Articles { get; set; }
         public DbSet<Broadcast_map> Broadcast_map { get; set; }
         public DbSet<Comments> Comments { get; set; }
-        public DbSet<Content> Content { get; set; }
+        public DbSet<Contents> Contents { get; set; }
         public DbSet<Corporate_information> Corporate_information { get; set; }
         public DbSet<Types> Types { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<Likes> Likes { get; set; }
-        public DbSet<AuditInfo> AuditInfo { get; set; }
+        public DbSet<AuditInfos> AuditInfos { get; set; }
 
 
 
@@ -39,11 +39,5 @@ namespace Cms.Backend.Db
         {
             modelBuilder.Seed();
         }
-
-        //连接数据库
-        // protected override void OnConfiguring(DbContextOptionsBuilder options)
-        // {
-        //     options.UseSqlServer(@"server=.;database=textCms;uid=sa;pwd=123");
-        // }
     }
 }

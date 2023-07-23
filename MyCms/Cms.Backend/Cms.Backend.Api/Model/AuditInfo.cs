@@ -5,14 +5,18 @@ using System.ComponentModel.DataAnnotations;
 
 
 namespace Cms.Backend.Api.Model
-{  
-    
-// huawei MatePad 11 夏日胡杨 128G 
-//                   海岛蓝
-    public class AuditInfo : BaseModel
+{
+
+    // huawei MatePad 11 夏日胡杨 128G 
+    //                   海岛蓝
+
+    /// <summary>
+    /// 审计日志表
+    /// </summary>
+    public class AuditInfos : BaseModel
     {
-        
- /// 调用参数
+
+        /// 调用参数
         public string Parameters { get; set; }
 
         /// 浏览器信息

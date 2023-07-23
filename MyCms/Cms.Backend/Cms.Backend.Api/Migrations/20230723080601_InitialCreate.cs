@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Cms.Backend.Api.Migrations
 {
-    public partial class init : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AuditInfo",
+                name: "AuditInfos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -33,7 +33,7 @@ namespace Cms.Backend.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuditInfo", x => x.Id);
+                    table.PrimaryKey("PK_AuditInfos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,7 +55,7 @@ namespace Cms.Backend.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Content",
+                name: "Contents",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -71,7 +71,7 @@ namespace Cms.Backend.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Content", x => x.Id);
+                    table.PrimaryKey("PK_Contents", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -100,26 +100,6 @@ namespace Cms.Backend.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Likes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ArticleId = table.Column<int>(type: "int", nullable: false),
-                    applaud = table.Column<bool>(type: "bit", nullable: false),
-                    IsActived = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Likes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Types",
                 columns: table => new
                 {
@@ -144,6 +124,7 @@ namespace Cms.Backend.Api.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Permission = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActived = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -163,8 +144,14 @@ namespace Cms.Backend.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AvatarUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserRoleId = table.Column<int>(type: "int", nullable: false),
+                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserPhoneNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    eMail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QQNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WeChat = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActived = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -195,7 +182,7 @@ namespace Cms.Backend.Api.Migrations
                     CoverPictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsCheck = table.Column<int>(type: "int", nullable: false),
                     IsRecommend = table.Column<bool>(type: "bit", nullable: false),
-                    ContentId = table.Column<int>(type: "int", nullable: false),
+                    ContentsId = table.Column<int>(type: "int", nullable: false),
                     TypeId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     IsActived = table.Column<bool>(type: "bit", nullable: false),
@@ -208,9 +195,9 @@ namespace Cms.Backend.Api.Migrations
                 {
                     table.PrimaryKey("PK_Articles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Articles_Content_ContentId",
-                        column: x => x.ContentId,
-                        principalTable: "Content",
+                        name: "FK_Articles_Contents_ContentsId",
+                        column: x => x.ContentsId,
+                        principalTable: "Contents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -233,10 +220,9 @@ namespace Cms.Backend.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FromUserId = table.Column<int>(type: "int", nullable: false),
-                    ToUserId = table.Column<int>(type: "int", nullable: false),
-                    ArticleId = table.Column<int>(type: "int", nullable: false),
+                    ArticlesId = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActived = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -247,9 +233,42 @@ namespace Cms.Backend.Api.Migrations
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Articles_ArticleId",
-                        column: x => x.ArticleId,
+                        name: "FK_Comments_Articles_ArticlesId",
+                        column: x => x.ArticlesId,
                         principalTable: "Articles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FromUserId = table.Column<int>(type: "int", nullable: false),
+                    ArticlesId = table.Column<int>(type: "int", nullable: true),
+                    ArticleId = table.Column<int>(type: "int", nullable: false),
+                    IsPraise = table.Column<bool>(type: "bit", nullable: false),
+                    IsActived = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Likes_Articles_ArticlesId",
+                        column: x => x.ArticlesId,
+                        principalTable: "Articles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Likes_Users_FromUserId",
+                        column: x => x.FromUserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -257,27 +276,27 @@ namespace Cms.Backend.Api.Migrations
             migrationBuilder.InsertData(
                 table: "Broadcast_map",
                 columns: new[] { "Id", "CreatedTime", "IsActived", "IsDeleted", "Picture", "Remarks", "UpdatedTime" },
-                values: new object[] { 1, "2022-09-03 09:33:01", true, false, "UploadFiles\\DefaultImage\\bj001.jpg", "种子数据", "2022-09-03 09:33:01" });
+                values: new object[] { 1, "2023-07-23 16:06:01", true, false, "UploadFiles\\DefaultImage\\bj001.jpg", "种子数据", "2023-07-23 16:06:01" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
-                columns: new[] { "Id", "CreatedTime", "IsActived", "IsDeleted", "Remarks", "RoleName", "UpdatedTime" },
+                columns: new[] { "Id", "CreatedTime", "IsActived", "IsDeleted", "Permission", "Remarks", "RoleName", "UpdatedTime" },
                 values: new object[,]
                 {
-                    { 1, "2022-09-03 09:33:01", true, false, "种子数据", "超级管理员", "2022-09-03 09:33:01" },
-                    { 2, "2022-09-03 09:33:01", true, false, "种子数据", "管理员", "2022-09-03 09:33:01" },
-                    { 3, "2022-09-03 09:33:01", true, false, "种子数据", "普通用户", "2022-09-03 09:33:01" }
+                    { 1, "2023-07-23 16:06:01", true, false, "", "种子数据", "超级管理员", "2023-07-23 16:06:01" },
+                    { 2, "2023-07-23 16:06:01", true, false, "", "种子数据", "管理员", "2023-07-23 16:06:01" },
+                    { 3, "2023-07-23 16:06:01", true, false, "", "种子数据", "普通用户", "2023-07-23 16:06:01" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AvatarUrl", "CreatedTime", "IsActived", "IsDeleted", "Password", "Remarks", "UpdatedTime", "UserRoleId", "Username" },
-                values: new object[] { 1, "UploadFiles\\DefaultImage\\default.jpg", "2022-09-03 09:33:01", true, false, "123", "种子数据", "2022-09-03 09:33:01", 1, "admin" });
+                columns: new[] { "Id", "Age", "Avatar", "CreatedTime", "Gender", "IsActived", "IsDeleted", "Password", "QQNumber", "Remarks", "UpdatedTime", "UserPhoneNumber", "UserRoleId", "Username", "WeChat", "eMail" },
+                values: new object[] { 1, 20, "UploadFiles\\DefaultImage\\default.jpg", "2023-07-23 16:06:01", null, true, false, "123", null, "种子数据", "2023-07-23 16:06:01", "18295778879", 1, "admin", null, null });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Articles_ContentId",
+                name: "IX_Articles_ContentsId",
                 table: "Articles",
-                column: "ContentId");
+                column: "ContentsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_TypeId",
@@ -290,9 +309,19 @@ namespace Cms.Backend.Api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ArticleId",
+                name: "IX_Comments_ArticlesId",
                 table: "Comments",
-                column: "ArticleId");
+                column: "ArticlesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_ArticlesId",
+                table: "Likes",
+                column: "ArticlesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_FromUserId",
+                table: "Likes",
+                column: "FromUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserRoleId",
@@ -303,7 +332,7 @@ namespace Cms.Backend.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuditInfo");
+                name: "AuditInfos");
 
             migrationBuilder.DropTable(
                 name: "Broadcast_map");
@@ -321,7 +350,7 @@ namespace Cms.Backend.Api.Migrations
                 name: "Articles");
 
             migrationBuilder.DropTable(
-                name: "Content");
+                name: "Contents");
 
             migrationBuilder.DropTable(
                 name: "Types");

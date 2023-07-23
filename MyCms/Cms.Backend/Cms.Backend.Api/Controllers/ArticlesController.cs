@@ -27,7 +27,7 @@ namespace Cms.Backend.Api.Controllers
         private IRepository<Types> _typeRepository;
 
         //实例化一个内容Content表的接口
-        private IRepository<Content> _contentRepository;
+        private IRepository<Contents> _contentRepository;
 
         //实例化一个Users表的接口
         private IRepository<Users> _usersRepository;
@@ -40,7 +40,7 @@ namespace Cms.Backend.Api.Controllers
             IConfiguration configuration,
             IRepository<Articles> articleRepository,
             IRepository<Types> typeRepository,
-            IRepository<Content> contentRepository,
+            IRepository<Contents> contentRepository,
             IRepository<Users> usersRepository,
             IRepository<Likes> likesRepository
             )
@@ -61,7 +61,7 @@ namespace Cms.Backend.Api.Controllers
             var pageSize = int.Parse(Request.Query["pageSize"][0]);
 
             // var CmsDb = new CmsBackendDb();
-            var articles = _articleRepository.Table.Include(x => x.User).Include(x => x.Content).ToList();
+            var articles = _articleRepository.Table.Include(x => x.User).Include(x => x.Contents).ToList();
 
             //   分页倒序查看文章列表
             var article = articles.OrderByDescending(x => x.Id).Skip((currentPage - 1) * pageSize).Take(pageSize);
@@ -101,7 +101,7 @@ namespace Cms.Backend.Api.Controllers
             }
 
             //在通过当前文章的contentId获取内容
-            var content = _contentRepository.GetById(article.ContentId);
+            var content = _contentRepository.GetById(article.ContentsId);
 
             if (content == null)
             {
@@ -144,7 +144,7 @@ namespace Cms.Backend.Api.Controllers
 
              // 筛选x.UserId==userId  再表连接 
             //   var CmsDb=new CmsBackendDb();
-              var articles= _articleRepository.Table.Where(x=>x.UserId==userId).Include(x=>x.User).Include(x=>x.Content);
+              var articles= _articleRepository.Table.Where(x=>x.UserId==userId).Include(x=>x.User).Include(x=>x.Contents);
                
               var articlePaging=articles.OrderByDescending(x=>x.Id).Skip((currentPage-1)*pageSize).Take(pageSize);
 
@@ -175,7 +175,7 @@ namespace Cms.Backend.Api.Controllers
 
             var CmsDb = new CmsBackendDb();
 
-            var articles = CmsDb.Articles.Include(x => x.User).Include(x => x.Content).ToList().Where(x => x.Title.Contains(querydata));
+            var articles = CmsDb.Articles.Include(x => x.User).Include(x => x.Contents).ToList().Where(x => x.Title.Contains(querydata));
 
 
             if (articles == null)
@@ -256,7 +256,7 @@ namespace Cms.Backend.Api.Controllers
 
 
             //将内容信息插入到内容表中
-            var content = new Content
+            var content = new Contents
             {
                 Words = contentWord,
                 Picture = newArticle.Picture,
@@ -290,7 +290,7 @@ namespace Cms.Backend.Api.Controllers
                 //外键id插入
                 TypeId = currentTypeId,
                 UserId = UserId,
-                ContentId = ContentId,
+                ContentsId = ContentId,
                   
                   //封面图
                 CoverPictureUrl = url,
@@ -396,7 +396,7 @@ namespace Cms.Backend.Api.Controllers
             }
 
             //通过文章的内容id获取内容表的内容
-            var content = _contentRepository.GetById(article.ContentId);
+            var content = _contentRepository.GetById(article.ContentsId);
 
             if (content == null)
             {

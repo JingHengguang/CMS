@@ -19,9 +19,9 @@ namespace Cms.Backend.Api.Controllers
         private IConfiguration _configuration;
 
         //实例化日志实体
-        private IRepository<AuditInfo> _auditInfoRepository;
+        private IRepository<AuditInfos> _auditInfoRepository;
 
-        public AuditLogController(IConfiguration configuration, IRepository<AuditInfo> auditInfoRepository)
+        public AuditLogController(IConfiguration configuration, IRepository<AuditInfos> auditInfoRepository)
         {
             _configuration = configuration;
             _auditInfoRepository = auditInfoRepository;

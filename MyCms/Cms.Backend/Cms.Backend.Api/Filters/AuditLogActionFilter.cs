@@ -22,10 +22,10 @@ namespace Cms.Backend.Filters
            /// 日志记录
         private readonly ILogger<AuditLogActionFilter> _logger;
 
-        private readonly IRepository<AuditInfo> _auditLogService;
+        private readonly IRepository<AuditInfos> _auditLogService;
 
         public AuditLogActionFilter( //ISession Session, 
-        ILogger<AuditLogActionFilter> logger, IRepository<AuditInfo> auditLogService)
+        ILogger<AuditLogActionFilter> logger, IRepository<AuditInfos> auditLogService)
         {
             // _Session = Session;
             _logger = logger;
@@ -48,7 +48,7 @@ namespace Cms.Backend.Filters
             var arguments = context.ActionArguments;
             //开始计时
             var stopwatch = Stopwatch.StartNew();
-            var auditInfo = new AuditInfo
+            var auditInfo = new AuditInfos
             {
                 // UserInfo = _Session?.Id,
                 UserInfo="1",
