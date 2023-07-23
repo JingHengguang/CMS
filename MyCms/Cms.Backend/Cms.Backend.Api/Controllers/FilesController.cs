@@ -5,10 +5,11 @@ using Cms.Backend.Api.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cms.Backend.Api.Controllers
 {
-    //[Authorize]
+    // [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class FilesController : ControllerBase

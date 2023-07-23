@@ -5,41 +5,10 @@
 
 let routes = [
     {
-        path: '/',
-        // component: Layout,
+        path: '/', 
         redirect:{path: '/index/detailed'},
         title: '根目录', 
-    },
-    {
-        path: '/login',
-        meta: {
-            title: '登录',
-            icon: 'el-icon-add-location',
-            hidden: true
-        },
-        component: () => import('../src/views/login.vue'),
-
-    },
-    //注册路由
-    {
-        path: '/register',
-        meta: {
-            title: '注册',
-            icon: 'el-icon-add-location',
-            hidden: true
-        },
-        component: () => import('../src/views/register.vue'),
-
-    },
-    {
-        path: '/test',
-        meta: {
-            title: '首页',
-            icon: 'el-icon-add-location',
-            hidden: true
-        },
-        component: () => import('../src/views/test.vue'),
-
+        // component: Layout,
     },
     {
         path: '/index',
@@ -109,6 +78,37 @@ let routes = [
     
         ]
     },
+    // {
+    //     path: '/login',
+    //     meta: {
+    //         title: '登录',
+    //         icon: 'el-icon-add-location',
+    //         hidden: true
+    //     },
+    //     component: () => import('../src/views/login.vue'),
+
+    // },
+    //注册路由
+    {
+        path: '/register',
+        meta: {
+            title: '注册',
+            icon: 'el-icon-add-location',
+            hidden: true
+        },
+        component: () => import('../src/views/register.vue'),
+
+    },
+    {
+        path: '/test',
+        meta: {
+            title: '首页',
+            icon: 'el-icon-add-location',
+            hidden: true
+        },
+        component: () => import('../src/views/test.vue'),
+    },
+  
 ]
 
 export default routes

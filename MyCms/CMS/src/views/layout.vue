@@ -1,50 +1,115 @@
 <template>
-  <el-container>
-    <div class="all">
-     
-      <!-- 顶部 -->
+  <el-container class="all_container">
+
+    <el-drawer title="登录界面" :visible.sync="drawer" direction="rtl" size="60%" :with-header="false">
+      <loginTemp></loginTemp>
+    </el-drawer>
+
+    <!-- 头部 -->
+    <el-header style="height: 60px;">
+      <!-- 图标和标题 -->
+      <img style="height: 50px;" src="../assets/blog.png" alt="">
+      <el-link :underline="false">酸菜鱼科技</el-link>
+
+      <!-- 主菜单栏 -->
+      <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect" active-text-color="#1183FB">
+        <el-menu-item index="1">首页</el-menu-item>
+        <el-menu-item index="2">消息中心2</el-menu-item>
+        <el-menu-item index="3">消息中心3</el-menu-item>
+        <el-menu-item index="4">消息中心4</el-menu-item>
+        <el-menu-item index="5">消息中心5</el-menu-item>
+        <el-menu-item index="6">消息中心6</el-menu-item>
+      </el-menu>
+
+      <!-- 登录注册 -->
       <div>
-        <!-- 头部 -->
-        <el-row style="background-color:green;">
+        <el-link v-if="!islogin" type="info" :underline="false" style="color: black;" @click="drawer = true">Log
+          in</el-link>
+        <el-button v-if="!islogin"
+          style="color: white;height: 48px; width: 86px;background-color: black; margin-left: 20px;" @click="drawer = true">Sign
+          up</el-button>
+        <span v-if="islogin">admin</span>
+      </div>
+    </el-header>
 
-          <el-col class="header1">就爱科技</el-col>
-          <span style="font-size:20px;">欢迎用户：{{ username }}   </span>
-          <span style="font-size:20px;margin-left: 10px;">登录时间：{{ loginTime }}</span>
-          <el-button v-if="islogin" class="login" type="primary" plain @click="logout">注销</el-button>
-          <el-button v-else class="login" type="primary" plain @click="logout">登录</el-button>
-        </el-row>
-
-        <!-- 轮播图片 -->
-        <el-main style="padding: 0;margin: 3px;"> 
-          <el-carousel trigger="click" :interval="2000" :height="dataHeight" arrow="always" style="background-color: red;">
-            <el-carousel-item  v-for="(item,index) in RotationChartList" :key="index">
-            <img class="RotationCharImg" :src="'http://localhost:5000/files/RotationChart?RotationChartUrl='+item.picture" alt="">
+    <el-container>
+      <el-container>
+        <!-- 中间 -->
+        <el-main>
+          <!-- 轮播图片 -->
+          <el-carousel trigger="click" :interval="2000" :height="dataHeight" arrow="always">
+            <el-carousel-item v-for="(item, index) in RotationChartList" :key="index">
+              <img class="RotationCharImg"
+                :src="'http://localhost:5000/files/RotationChart?RotationChartUrl=' + item.picture" alt="">
             </el-carousel-item>
-         
-            
           </el-carousel>
+
+          <!-- <el-carousel trigger="click" :interval="2000" :height="dataHeight" arrow="always">
+            <el-carousel-item>
+              <img class="RotationCharImg" src="../assets/1.jpeg" alt="">
+            </el-carousel-item>
+            <el-carousel-item>
+              <img class="RotationCharImg" src="../assets/2.jpeg" alt="">
+            </el-carousel-item>
+            <el-carousel-item>
+              <img class="RotationCharImg" src="../assets/4.jpeg" alt="">
+            </el-carousel-item>
+            <el-carousel-item>
+              <img class="RotationCharImg" src="../assets/6.jpeg" alt="">
+            </el-carousel-item>
+          </el-carousel> -->
+
+
+          <el-tabs type="border-card">
+            <el-tab-pane style="font-size: 20px;" label="新闻实事">
+              <router-view name="detailed"></router-view>
+            </el-tab-pane>
+            <el-tab-pane label="公司动态">
+              <router-view name="dynamic"></router-view>
+            </el-tab-pane>
+            <el-tab-pane label="大神风采">
+              <router-view name="mien"></router-view>
+            </el-tab-pane>
+            <el-tab-pane label="关于我们">
+              <router-view name="about"></router-view>
+            </el-tab-pane>
+          </el-tabs>
+
         </el-main>
-        
-      </div>
 
-      <div class="left">
-        <el-tabs type="border-card">
-          <el-tab-pane style="font-size: 20px;" label="新闻实事">
-            <router-view name="detailed"></router-view>
-          </el-tab-pane>
-          <el-tab-pane label="公司动态">
-            <router-view name="dynamic"></router-view>
-          </el-tab-pane>
-          <el-tab-pane label="大神风采">
-            <router-view name="mien"></router-view>
-          </el-tab-pane>
-          <el-tab-pane label="关于我们">
-            <router-view name="about"></router-view>
-          </el-tab-pane>
-        </el-tabs>
-      </div>
+        <!-- 底部 -->
+        <el-footer>
 
-      <div class="right">
+          <!-- 联系我们 -->
+          <!-- <div class="text">关注公众号</div>
+          <div class="text">扫码微信群</div>
+          <div class="text">扫码进QQ群</div>
+          <div class="ICP">豫ICP备2020035082号-1</div>
+          <div class="Police">
+            <img src="../assets/备案图标(1).png" alt />
+            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41142202000050" style="
+                  display: inline-block;
+                  text-decoration: none;
+
+                  height: 20px;
+                  line-height: 20px;
+                ">
+              <p style="float: left; margin: 0px 0px 0px 5px; color: #939393">
+                豫公网安备 41170202000372号
+              </p>
+            </a>
+          </div> -->
+
+
+
+
+
+        </el-footer>
+
+      </el-container>
+
+      <!-- 右侧栏 -->
+      <el-aside width="200px">
         <el-row>
           <!-- 48小时阅读排行 -->
           <el-col class="one">
@@ -86,91 +151,37 @@
           </el-col>
 
           <!-- 10天评论排行文章 -->
-          <!-- <el-col class="three">
+          <el-col class="three">
             <div>
               <p>10天评论排行文章</p>
               <el-button class="gengduo1" size="small" type="text">
                 >>查看更多
               </el-button>
-            </div> -->
+            </div>
 
-          <!-- <el-table :data="rebang" :show-header="false" class="table3">
+            <el-table :data="rebang" :show-header="false" class="table3">
               <el-table-column label="10天评论排行" header-align="center">
-                <template slot-scope="scope"> -->
-          <!-- 内容和过滤-->
-          <!-- <el-link :underline="false">
+                <template slot-scope="scope">
+                  <!-- 内容和过滤-->
+                  <el-link :underline="false">
                     {{ scope.row.id }}{{ "." }}
                     {{ scope.row.title | ellipsis }}
                   </el-link>
                 </template>
               </el-table-column>
             </el-table>
-          </el-col> -->
-        </el-row>
-      </div>
-
-   <!-- 底部 -->
-      <div class="bottom">
-        <!-- 联系我们 -->
-        <el-row class="EWM">
-          <el-col class="gongzhong">
-            <div class="image">
-              <div class="block" v-for="fit in fits" :key="fit">
-                <span class="demonstration"></span>
-                <el-image style="width: 150px; height: 150px" :src="url4" :fit="fit"></el-image>
-              </div>
-              <div class="text">关注公众号</div>
-            </div>
-          </el-col>
-          <el-col class="weixin">
-            <div class="image">
-              <div class="block" v-for="fit in fits" :key="fit">
-                <span class="demonstration"></span>
-                <el-image style="width: 150px; height: 150px" :src="url5" :fit="fit"></el-image>
-              </div>
-              <div class="text">扫码微信群</div>
-            </div>
-          </el-col>
-          <el-col class="qq">
-            <div class="image">
-              <div class="block" v-for="fit in fits" :key="fit">
-                <span class="demonstration"></span>
-                <el-image style="width: 150px; height: 150px" :src="url6" :fit="fit"></el-image>
-              </div>
-              <div class="text">扫码进QQ群</div>
-            </div>
           </el-col>
         </el-row>
-        <!-- 备案号 -->
-        <el-footer>
-          <div>
-            <div class="ICP">豫ICP备2020035082号-1</div>
-            <div class="Police">
-              <img src="../assets/备案图标(1).png" alt />
-              <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41142202000050"
-                style="
-                  display: inline-block;
-                  text-decoration: none;
+      </el-aside>
 
-                  height: 20px;
-                  line-height: 20px;
-                ">
-                <p style="float: left; margin: 0px 0px 0px 5px; color: #939393">
-                  豫公网安备 41170202000372号
-                </p>
-              </a>
-            </div>
-          </div>
-        </el-footer>
-          <!-- <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop> -->
-      </div>
-    </div>
+    </el-container>
+
   </el-container>
 </template>
 
 <script>
 import { recArticle, readArticle } from "../api/article";
-import {getRotationChartList} from "../api/rotationChart"
+import { getRotationChartList } from "../api/rotationChart"
 import {
   ClearToken,
   clearUsername,
@@ -178,7 +189,12 @@ import {
   getUsername,
 } from "../utils/auth";
 
+//引入登录界面
+import loginTemp from '../components/LoginTemp/login.vue'
+
 export default {
+  components: { loginTemp },
+
   /*   热榜隐藏链接 */
   filters: {
     ellipsis(value) {
@@ -192,11 +208,15 @@ export default {
   name: "Banner",
   data() {
     return {
+      // 默认选中首页
+      activeIndex: '1',
+
       username: "",
       islogin: false,
-      
+      drawer: false,
+
       //登录时间
-      loginTime:"",
+      loginTime: "",
 
       /*  48小时阅读排行 */
       reader: [],
@@ -208,9 +228,9 @@ export default {
       id: "",
       /*  最新文章封面图 */
       fits: [],
-       
-       RotationChartList:[],
-        pager: {
+
+      RotationChartList: [],
+      pager: {
         //每页显示条目个数
         pageSize: 20,
         currentPage: 1,
@@ -218,24 +238,32 @@ export default {
       },
     };
   },
-  props:{
-    dataHeight:{
-        type:String,
-        default:'600px'
+  props: {
+    dataHeight: {
+      type: String,
+      default: '600px'
     }
   },
-  methods: {   
-     //获取当前时间
-      currentTime(date){
-          var  year=date.getFullYear();
-          var  month= date.getMonth()+1;
-          var  day=date.getDate();
-          var  hours=date.getHours();
-          var  minutes=date.getMinutes();
-          var  seconds=date.getSeconds();
-
-          this.loginTime=year+"-"+month+"-"+day+"\t"+hours+":"+minutes+":"+seconds
+  methods: {
+    // 菜单栏选择时触发
+    handleSelect(key, keyPath) {
+        console.log(key, keyPath);
       },
+
+
+
+    // --------------
+    //获取当前时间
+    currentTime(date) {
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var seconds = date.getSeconds();
+      this.loginTime = year + "-" + month + "-" + day + "\t" + hours + ":" + minutes + ":" + seconds
+    },
+
     //判断是否有token
     isToken(tokenOK) {
       this.islogin = tokenOK;
@@ -264,17 +292,17 @@ export default {
         });
     },
     //获取轮播图
-    RotationList(){
+    RotationList() {
       getRotationChartList(this.pager)
-      .then((res)=>{
-        if (res.code==200) {
-           this.RotationChartList=res.data.data;
-           this.pager=res.data.pager;
-        }               
-      })
-      .catch(err=>{
-        console.log(err);    
-      });
+        .then((res) => {
+          if (res.code == 200) {
+            this.RotationChartList = res.data.data;
+            this.pager = res.data.pager;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     //跳转到该区域推荐文章的系列路由界面
     readingrecommends(scope) {
@@ -320,21 +348,67 @@ export default {
     this.recommend();
     //48小时文章阅读
     this.readed();
-   
+
     this.RotationList();
 
-     //获取当前时间
+    //获取当前时间
     this.currentTime(new Date());
   },
 };
 </script>
 
-<style scoped>
-
-.RotationCharImg{
-   width: 100%;
-   height: 100vh;
+<style scoped lang="less">
+html {
+  height: 100%;
 }
+
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.all_container {
+  .el-menu {
+    border-right: none;
+  }
+
+  .el-menu--horizontal>.el-menu-item {
+    border-bottom: none;
+    text-decoration: none;
+  }
+
+  .el-aside,
+  .el-header,
+  .el-main,
+  .el-footer {
+    color: #333;
+    text-align: center;
+    padding: 0;
+    margin: 5px;
+  }
+
+  .el-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .el-main {
+    background-color: rebeccapurple;
+
+    .RotationCharImg {
+      width: 100%;
+      height: 100vh;
+    }
+  }
+}
+
+
+
+
+// --------------------
 .el-carousel__item:nth-child(2n) {
   background-color: #99a9bf;
 }
@@ -343,7 +417,6 @@ export default {
   background-color: #d3dce6;
 }
 
-/* -------------------- */
 td {
   padding: 1px !important;
   text-align: center;
@@ -388,15 +461,6 @@ a:hover {
   height: 150px;
 }
 
-/* 头部样式 */
-.header1 {
-  width: 800px !important;
-  height: 50px;
-  color: #57a1b8;
-  line-height: 2;
-  font-size: 30px;
-  margin-left: 20px !important;
-}
 
 .login {
   width: 72px;
@@ -410,9 +474,9 @@ a:hover {
 
 
 .el-tabs {
-  height: 800px ;
+  height: 800px;
 }
- 
+
 
 .el-tabs__item {
   /* width: 297.8px !important; */
@@ -539,10 +603,10 @@ a:hover {
 }
 
 /* row总样式 */
-.el-footer {
-  width: 100vm !important;
-  margin-top: 30px !important;
-}
+// .el-footer {
+//   width: 100vm !important;
+//   margin-top: 30px !important;
+// }
 
 .el-row {
   margin-top: auto;
@@ -589,9 +653,9 @@ a:hover {
 }
 
 /* 底部 */
-.el-footer .el-row {
-  margin-top: 10px;
-}
+// .el-footer .el-row {
+//   margin-top: 10px;
+// }
 
 .ICP {
   text-align: center;

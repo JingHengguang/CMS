@@ -70,7 +70,7 @@ export default {};
 </script>
 
 
-<style>
+<style scoped lang="less">
 /* 48小时阅读排行 */
 .one {
   margin-left: 0 !important;

@@ -10,7 +10,7 @@
 <script>
 </script>
 
-<style>
+<style scoped lang="less">
   html,
   body,
   #app {

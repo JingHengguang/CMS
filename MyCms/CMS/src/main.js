@@ -5,6 +5,7 @@ import router from '../router'
 import * as echarts from 'echarts';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import less from 'less'
 
 
 //全局引入
@@ -14,7 +15,7 @@ Vue.config.productionTip = false
 
 
 Vue.use(ElementUI);
-
+Vue.use(less);
 
 new Vue({
   //通过router配置参数注入路由

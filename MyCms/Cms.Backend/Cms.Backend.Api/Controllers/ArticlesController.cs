@@ -12,7 +12,7 @@ using System;
 
 namespace Cms.Backend.Api.Controllers
 {
-    [Authorize] //这个标识是 请求要求身份验证。 对于需要登录的网页，服务器返回此响应401，添加到这里表示以下所有的的请求都需要先验证
+   // [Authorize] //这个标识是 请求要求身份验证。 对于需要登录的网页，服务器返回此响应401，添加到这里表示以下所有的的请求都需要先验证
     [ApiController]
     [Route("[controller]")]
 

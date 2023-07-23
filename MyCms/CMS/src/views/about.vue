@@ -25,7 +25,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped lang="less">
 .about {
   font-size: 25px;
   color: rgb(72, 130, 150);

@@ -48,7 +48,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped lang="less"> 
 
 #beijing{
     height: 200px;

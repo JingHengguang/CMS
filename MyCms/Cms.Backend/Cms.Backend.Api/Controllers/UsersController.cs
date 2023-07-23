@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cms.Backend.Api.Controllers
 {
-    [Authorize] //这个标识是 请求要求身份验证。 对于需要登录的网页，服务器返回此响应401，添加到这里表示以下所有的的请求都需要先验证
+    //[Authorize] //这个标识是 请求要求身份验证。 对于需要登录的网页，服务器返回此响应401，添加到这里表示以下所有的的请求都需要先验证
     [ApiController]
     [Route("[controller]")]
 
@@ -43,7 +43,6 @@ namespace Cms.Backend.Api.Controllers
         [HttpGet]
         public dynamic Get()
         {
-
             var currentPage = int.Parse(Request.Query["currentPage"][0]);  //  1,
             var pageSize = int.Parse(Request.Query["pageSize"][0]);  //   10,
 
@@ -51,7 +50,6 @@ namespace Cms.Backend.Api.Controllers
             {
                 return ResponseStatus.ResponseError("当前页或当前页的显示数量必须大于0");
             }
-
             var users = _usersRepository.Table.Include(x => x.UserRole).ToList();
 
             //   分页

@@ -66,7 +66,7 @@ export default {};
 </script>
 
 
-<style>
+<style scoped lang="less">
 .content {
   font-size: 20px;
   text-align: inherit;
