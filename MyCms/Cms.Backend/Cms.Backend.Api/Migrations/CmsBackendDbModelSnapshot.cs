@@ -179,12 +179,12 @@ namespace Cms.Backend.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedTime = "2023-07-23 16:06:01",
+                            CreatedTime = "2023-07-28 20:18:59",
                             IsActived = true,
                             IsDeleted = false,
                             Picture = "UploadFiles\\DefaultImage\\bj001.jpg",
                             Remarks = "种子数据",
-                            UpdatedTime = "2023-07-23 16:06:01"
+                            UpdatedTime = "2023-07-28 20:18:59"
                         });
                 });
 
@@ -425,35 +425,35 @@ namespace Cms.Backend.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedTime = "2023-07-23 16:06:01",
+                            CreatedTime = "2023-07-28 20:18:59",
                             IsActived = true,
                             IsDeleted = false,
                             Permission = "",
                             Remarks = "种子数据",
                             RoleName = "超级管理员",
-                            UpdatedTime = "2023-07-23 16:06:01"
+                            UpdatedTime = "2023-07-28 20:18:59"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedTime = "2023-07-23 16:06:01",
+                            CreatedTime = "2023-07-28 20:18:59",
                             IsActived = true,
                             IsDeleted = false,
                             Permission = "",
                             Remarks = "种子数据",
                             RoleName = "管理员",
-                            UpdatedTime = "2023-07-23 16:06:01"
+                            UpdatedTime = "2023-07-28 20:18:59"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedTime = "2023-07-23 16:06:01",
+                            CreatedTime = "2023-07-28 20:18:59",
                             IsActived = true,
                             IsDeleted = false,
                             Permission = "",
                             Remarks = "种子数据",
                             RoleName = "普通用户",
-                            UpdatedTime = "2023-07-23 16:06:01"
+                            UpdatedTime = "2023-07-28 20:18:59"
                         });
                 });
 
@@ -526,12 +526,12 @@ namespace Cms.Backend.Api.Migrations
                             Id = 1,
                             Age = 20,
                             Avatar = "UploadFiles\\DefaultImage\\default.jpg",
-                            CreatedTime = "2023-07-23 16:06:01",
+                            CreatedTime = "2023-07-28 20:18:59",
                             IsActived = true,
                             IsDeleted = false,
                             Password = "123",
                             Remarks = "种子数据",
-                            UpdatedTime = "2023-07-23 16:06:01",
+                            UpdatedTime = "2023-07-28 20:18:59",
                             UserPhoneNumber = "18295778879",
                             UserRoleId = 1,
                             Username = "admin"

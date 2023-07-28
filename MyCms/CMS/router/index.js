@@ -12,31 +12,38 @@ let router = new VueRouter({
 
 })
 
-// router.beforeEach((to,from,next)=>{
-//          let isAuth=IsLogin();
-//          document.title = to.meta.title;        
-//             console.log(to.path);
-//             if (to.path == '/login'||to.path=='/register') {
-//                if (isAuth) {              
-//                   // alert('你已经登录过了')
-//                   next('index')
+router.beforeEach((to,from,next)=>{
+        
+         document.title = to.meta.title;   
+
+            console.log(to.path);
+            console.log(from);
+            next();
+
+            //判断是否登录
+
+            // let isAuth=IsLogin();
+            // if (to.path == '/login'||to.path=='/register') {
+            //    if (isAuth) {              
+            //       // alert('你已经登录过了')
+            //       next('index')
                   
-//                } else {
-//                   next()
-//                }
-//                return;
-//             } 
-//             else {
-//                if (isAuth) {
-//                   next()
-//                } else {
-//                   // alert('你没有登陆哦');
-//                   // this.$message({ type: "error", message:"你没有登陆哦,请先登录" });
-//                   //跳到指定路由
-//                   next('login')
-//                }
-//             }
-// })
+            //    } else {
+            //       next()
+            //    }
+            //    return;
+            // } 
+            // else {
+            //    if (isAuth) {
+            //       next()
+            //    } else {
+            //       // alert('你没有登陆哦');
+            //       // this.$message({ type: "error", message:"你没有登陆哦,请先登录" });
+            //       //跳到指定路由
+            //       next('login')
+            //    }
+            // }
+})
 // ----------------------------------------------------------------------------------------------------------------------------------------
 // router.beforeEach((to, from, next) => {
 //     // 判断to准备去的路由，是否是登录界面的路径，如果是处理一下1，如果不是也处理一下2

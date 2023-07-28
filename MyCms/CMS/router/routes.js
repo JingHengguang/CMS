@@ -78,16 +78,16 @@ let routes = [
     
         ]
     },
-    // {
-    //     path: '/login',
-    //     meta: {
-    //         title: '登录',
-    //         icon: 'el-icon-add-location',
-    //         hidden: true
-    //     },
-    //     component: () => import('../src/views/login.vue'),
+    {
+        path: '/login',
+        meta: {
+            title: '登录',
+            icon: 'el-icon-add-location',
+            hidden: true
+        },
+        // component: () => import('../src/views/login.vue'),
 
-    // },
+    },
     //注册路由
     {
         path: '/register',
