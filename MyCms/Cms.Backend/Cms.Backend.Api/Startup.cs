@@ -48,11 +48,11 @@ namespace Cms.Backend.Api
             // 注入跨域
             services.AddCors(options =>
             {
-              options.AddPolicy(_allowCors,
-              builder => builder
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowAnyOrigin());
+                options.AddPolicy(_allowCors,
+                builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
             });
 
             /// <summary>
@@ -61,11 +61,14 @@ namespace Cms.Backend.Api
             /// <value></value>
             services.AddDbContext<CmsBackendDb>(o =>
             {
-                var connectionStrings = Configuration.GetConnectionString("conStr");
-                o.UseSqlServer(connectionStrings);
+                var connectionStrings = Configuration.GetConnectionString("MySQLConnection");
+                // o.UseSqlServer(connectionStrings);
+
+                var serverVersion = ServerVersion.AutoDetect(connectionStrings);
+                o.UseMySql(connectionStrings, serverVersion);
             });
 
-            services.AddDbContext<CmsBackendDb>(o => { o.UseSqlServer(); });
+            // services.AddDbContext<CmsBackendDb>(o => { o.UseMySql(); });
 
 
             // 注入 IRepository接口及其实现类
@@ -154,6 +157,9 @@ namespace Cms.Backend.Api
             {
                 endpoints.MapControllers();
             });
+
+
+
         }
     }
 }

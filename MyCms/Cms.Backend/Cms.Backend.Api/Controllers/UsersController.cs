@@ -305,6 +305,77 @@ namespace Cms.Backend.Api.Controllers
             return ResponseStatus.ResponseSuccess("", "删除用户成功");
         }
 
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updateUser"></param>
+        /// <returns></returns>
+        [HttpPut(), Route("PutPwd/{id}")]
+        public dynamic PutPwd(int id, CURUser updateUser)
+        {
+            var password = updateUser.Password.Trim();
+            var oldPassword = updateUser.oldPassword.Trim();
+
+            if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(oldPassword))
+            {
+                return ResponseStatus.ResponseError("密码或原密码不能为空");
+            }
+
+            //通过Id获取要修改的用户
+            var user = _usersRepository.GetById(id);
+            if (user == null)
+            {
+                return ResponseStatus.ResponseError("你要更新的用户不存在");
+            }
+            //判断原密码是否正确
+            if (user.Password != oldPassword)
+            {
+                return ResponseStatus.ResponseError("原密码输入错误");
+            }
+
+            //将要修改的账号密码重新赋给user
+            user.Password = password;
+            _usersRepository.Update(user);
+
+            return ResponseStatus.ResponseSuccess(user, "更新密码成功");
+            // return JsonHelper.Serialize(res);
+
+        }
+
+
+        /// <summary>
+        /// 修改用户对应的角色
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updateUser"></param>
+        /// <returns></returns>
+        [HttpPut(), Route("PutRoleid/{id}")]
+        public dynamic PutRoleid(int id, CURUser updateUser)
+        {
+            var userRoleId = updateUser.UserRoleId;
+
+            var userRole = _userRolesRepository.GetById(userRoleId);
+            if (userRole == null)
+            {
+                return ResponseStatus.ResponseError("你要更新的角色不存在");
+            }
+
+            //通过Id获取要修改的用户
+            var user = _usersRepository.GetById(id);
+            if (user == null)
+            {
+                return ResponseStatus.ResponseError("你要更新的用户不存在");
+            }
+            //将要修改的账号密码重新赋给user
+            user.UserRoleId = userRoleId;
+
+            _usersRepository.Update(user);
+            return ResponseStatus.ResponseSuccess(user, "更新角色成功");
+
+        }
+
     }
 
 }
