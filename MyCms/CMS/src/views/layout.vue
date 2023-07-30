@@ -1,15 +1,19 @@
 <template>
   <el-container class="all_container">
 
-    <el-drawer title="登录界面" :visible.sync="drawer" direction="rtl" size="60%" :with-header="false">
-      <loginTemp></loginTemp>
+    <el-drawer title="登录界面" :visible.sync="drawer" direction="rtl" size="60%" :with-header="false"
+      :before-close="handleClose">
+      <loginTemp ref="child"></loginTemp>
     </el-drawer>
 
     <!-- 头部 -->
     <el-header style="height: 60px;">
       <!-- 图标和标题 -->
-      <img style="height: 50px;" src="../assets/blog.png" alt="">
-      <el-link :underline="false">酸菜鱼科技</el-link>
+      <div>
+        <img style="height: 50px;" src="../assets/blog.png" alt="">
+        <el-link :underline="false">酸菜鱼科技</el-link>
+      </div>
+
 
       <!-- 主菜单栏 -->
       <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect" active-text-color="#1183FB">
@@ -26,9 +30,36 @@
         <el-link v-if="!islogin" type="info" :underline="false" style="color: black;" @click="drawer = true">Log
           in</el-link>
         <el-button v-if="!islogin"
-          style="color: white;height: 48px; width: 86px;background-color: black; margin-left: 20px;" @click="drawer = true">Sign
+          style="color: white;height: 48px; width: 86px;background-color: black; margin-left: 20px;"
+          @click="drawer = true">Sign
           up</el-button>
-        <span v-if="islogin">admin</span>
+
+        <el-menu v-if="islogin">
+          <el-menu-item>
+
+            <el-dropdown trigger="click">
+              <span>
+                <el-menu>
+                  <el-menu-item>
+                    <span class="el-dropdown-link">
+                      {{ username }}
+                    </span>
+                    <el-avatar shape="square" :size="50" fit="fill" :src="avatarUrlFull"></el-avatar>
+                  </el-menu-item>
+                </el-menu>
+
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>修改头像</el-dropdown-item>
+                <el-dropdown-item @click.native="handlelUpdatePwd">修改密码</el-dropdown-item>
+                <el-dropdown-item @click.native="handlelogout">注销登录</el-dropdown-item>
+              </el-dropdown-menu>
+
+            </el-dropdown>
+          </el-menu-item>
+        </el-menu>
+
+        <!-- <span v-if="islogin">admin</span> -->
       </div>
     </el-header>
 
@@ -43,22 +74,6 @@
                 :src="'http://localhost:5000/files/RotationChart?RotationChartUrl=' + item.picture" alt="">
             </el-carousel-item>
           </el-carousel>
-
-          <!-- <el-carousel trigger="click" :interval="2000" :height="dataHeight" arrow="always">
-            <el-carousel-item>
-              <img class="RotationCharImg" src="../assets/1.jpeg" alt="">
-            </el-carousel-item>
-            <el-carousel-item>
-              <img class="RotationCharImg" src="../assets/2.jpeg" alt="">
-            </el-carousel-item>
-            <el-carousel-item>
-              <img class="RotationCharImg" src="../assets/4.jpeg" alt="">
-            </el-carousel-item>
-            <el-carousel-item>
-              <img class="RotationCharImg" src="../assets/6.jpeg" alt="">
-            </el-carousel-item>
-          </el-carousel> -->
-
 
           <el-tabs type="border-card">
             <el-tab-pane style="font-size: 20px;" label="新闻实事">
@@ -81,7 +96,7 @@
         <el-footer>
 
           <!-- 联系我们 -->
-          <!-- <div class="text">关注公众号</div>
+          <div class="text">关注公众号</div>
           <div class="text">扫码微信群</div>
           <div class="text">扫码进QQ群</div>
           <div class="ICP">豫ICP备2020035082号-1</div>
@@ -98,7 +113,7 @@
                 豫公网安备 41170202000372号
               </p>
             </a>
-          </div> -->
+          </div>
 
 
 
@@ -185,12 +200,14 @@ import { getRotationChartList } from "../api/rotationChart"
 import {
   ClearToken,
   clearUsername,
+  getAvatar,
   getToken,
   getUsername,
 } from "../utils/auth";
 
 //引入登录界面
 import loginTemp from '../components/LoginTemp/login.vue'
+
 
 export default {
   components: { loginTemp },
@@ -211,7 +228,11 @@ export default {
       // 默认选中首页
       activeIndex: '1',
 
+      //用户名
       username: "",
+      //头像地址
+      avatarUrl: "",
+
       islogin: false,
       drawer: false,
 
@@ -241,16 +262,27 @@ export default {
   props: {
     dataHeight: {
       type: String,
-      default: '600px'
+      default: '520px'
     }
   },
   methods: {
     // 菜单栏选择时触发
     handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
-
-
+      console.log(key, keyPath);
+    },
+    //抽屉关闭时
+    handleClose(done) {
+      this.$confirm('信息未保存，确认要关闭吗？')
+        .then(_ => {
+          this.$refs.child.resetForm('userFrom');
+          this.$refs.child.resetForm('signUpUserFrom');
+          console.log(_);
+          done();
+        })
+        .catch(_ => {
+          console.log(_);
+        });
+    },
 
     // --------------
     //获取当前时间
@@ -324,6 +356,12 @@ export default {
       this.bannerHeigth = (400 / 1920) * this.screenwith;
     },
   },
+  computed: {
+    ///获取头像
+    avatarUrlFull() {
+      return 'http:localhost:5000/files/avatarPath?avatarUrl='+this.avatarUrl;
+    },
+  },
   created() {
     var tokenOK = getToken();
     if (tokenOK == "") {
@@ -336,6 +374,9 @@ export default {
   },
   mounted() {
     this.username = getUsername();
+    this.avatarUrl = getAvatar();
+
+
     // 首次加载时,需要调用一次
     this.screenWidth = window.innerWidth;
     this.setSize();
@@ -400,11 +441,18 @@ body {
 
     .RotationCharImg {
       width: 100%;
-      height: 100vh;
+      // height: 100vh;
     }
   }
 }
 
+
+/* 下拉菜单 */
+.el-dropdown-link {
+  /* cursor: pointer; */
+  // color: white;
+  font-size: 20px;
+}
 
 
 

@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### 获取头像
 ###
-GET http://localhost:5000/files/avatarPath?avatarUrl=UploadFiles/Images/default.jpg
+GET http://localhost:5000/files/avatarPath?avatarUrl=UploadFiles\DefaultImage\default.jpg
 
 
 ### 用于上传轮播图

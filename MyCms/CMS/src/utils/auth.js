@@ -3,6 +3,7 @@ const TokenKey = "accessToken";
 const RefreshTokenKey = "refreshToken"
 const Username ="username"
 const Id ="id"
+const Avatar="avatar"
 
 
 //获取用户id
@@ -11,43 +12,35 @@ export function getUserId() {
 }
 //获取Token
 export function getToken() {
-
     return localStorage.getItem(TokenKey) || '';
-
 }
-
 //获取RefreshTokenKey
 export function getRefreshToken() {
-
     return localStorage.getItem(RefreshTokenKey) || '';
 }
 
 //拿取登录的用户名
-export function getUsername(){
-    
+export function getUsername(){ 
     return localStorage.getItem(Username) || '';
 }
 
-
-//清除登录的用户名
-export function clearUsername(){
-    
-    return localStorage.removeItem(Username);
-
+//拿取登录的用户头像
+export function getAvatar(){ 
+    return localStorage.getItem(Avatar) || '';
 }
 
-
-//清除Token与RefreshToken
-export function ClearToken() {
-
+//注销登录
+export function LogOut(){
+    localStorage.removeItem(Id);
+    // localStorage.removeItem(userRoleId);
+    localStorage.removeItem(Username);
     localStorage.removeItem(TokenKey);
     localStorage.removeItem(RefreshTokenKey);
-
 }
+
 
 //保存Token
 export function SetToken(token,refreshToken) {
-
     localStorage.setItem(TokenKey,token);
     localStorage.setItem(RefreshTokenKey,refreshToken);
 }

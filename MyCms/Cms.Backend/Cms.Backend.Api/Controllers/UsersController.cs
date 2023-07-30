@@ -190,15 +190,17 @@ namespace Cms.Backend.Api.Controllers
             {
                 return ResponseStatus.ResponseError("账号或密码不能为空");
             }
+             
 
-            if (string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(avatar))
+            //  设置一个默认头像
+            if (string.IsNullOrWhiteSpace(avatar))
             {
-                return ResponseStatus.ResponseError("手机号或头像不可为空");
+                avatar="UploadFiles\\DefaultImage\\default.jpg";
             }
 
             //检查是否是正确的手机号
             Regex regex = new Regex(@"^(((13[0-9]{1})|(15[0-35-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$");
-            if (!regex.IsMatch(phone))
+            if (string.IsNullOrWhiteSpace(phone) && !regex.IsMatch(phone))
             {
                 return ResponseStatus.ResponseError("请输入正确的手机号");
             }

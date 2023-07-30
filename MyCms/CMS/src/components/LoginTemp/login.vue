@@ -2,13 +2,30 @@
   <div class="container" :class="{ active: isActive }">
     <!-- 注册 -->
     <div class="form-container sign-up-container">
-      <div class="form">
+      <el-form :model="signUpUserFrom" :rules="rules" status-icon ref="signUpUserFrom" class="form">
         <h2>sign up/注册</h2>
-        <input type="text" name="username" id="username" placeholder="Username..." />
-        <input type="password" name="password" id="password" placeholder="Password..." />
-        <button class="signUp">sign up</button>
-      </div>
+        <el-form-item prop="username">
+          <el-input type="text" v-model="signUpUserFrom.username" placeholder="请输入你的用户名..." autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input type="password" show-password v-model="signUpUserFrom.password" placeholder="请输入密码..."
+            autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="pwdOk">
+          <el-input type="password" show-password v-model="signUpUserFrom.pwdOk" placeholder="请再输入一次密码..."
+            autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="userPhoneNumber">
+          <el-input type="password" show-password v-model="signUpUserFrom.userPhoneNumber" placeholder="请输入手机号..."
+            autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="signUpClick">sign up</el-button>
+          <el-button @click="resetForm('signUpUserFrom')">Reset</el-button>
+        </el-form-item>
+      </el-form>
     </div>
+
 
     <!-- 登录 -->
     <div class="form-container sign-in-container">
@@ -30,20 +47,11 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="signInClick">sign in</el-button>
+          <el-button @click="resetForm('userFrom')">Reset</el-button>
         </el-form-item>
+
       </el-form>
     </div>
-
-
-
-    <!-- <div class="form-container sign-in-container">
-      <div class="form">
-        <h2>sign in/登录</h2>
-        <input type="text" placeholder="请输入你的邮箱...">
-        <input type="password" placeholder="Password...">
-        <button class="signIn">sign in</button>
-      </div>
-    </div> -->
 
     <!--滑动覆盖 -->
     <div class="overlay_container">
@@ -71,16 +79,13 @@
   
 <script>
 import { GVerify } from "../../utils/VerifyCode"
+import { login } from "../../api/users"
+import { SetToken } from "../../utils/auth"
 
 export default {
   data() {
-
     return {
-      container: document.getElementsByClassName('container')[0],
-      signIn: document.getElementById('sign-in'),
-      signUp: document.getElementById('sign-up'),
       isActive: false,
-
       //登录
       userFrom: {
         username: "",
@@ -90,13 +95,21 @@ export default {
       rules: {
         username: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
         password: [{ required: true, message: "密码不能为空", trigger: "blur" },],
+        pwdOk: [{ required: true, message: "确认密码不能为空", trigger: "blur" },],
+        userPhoneNumber: [{ required: true, message: "请输入手机号", trigger: "blur" },],
         verifyCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
       },
       verifyCode: null,
 
+      //注册
+      signUpUserFrom: {
+        username: "",
+        password: "",
+        pwdOk: "",
+        userPhoneNumber: ""
+      }
+
     };
-
-
 
   },
   methods: {
@@ -106,8 +119,6 @@ export default {
     },
     //登录
     signInClick() {
-      console.log(this.userFrom);
-
       // 获取验证码
       var verifyCode = this.userFrom.verifyCode
       var verifyFlag = this.verifyCode.validate(verifyCode)
@@ -119,6 +130,36 @@ export default {
         return;
       }
 
+      login(this.userFrom).then(res => {
+        //判断账号密码正确
+        if (res.code === 200 && res.data.user.isActived === true) {
+          localStorage.setItem("username", res.data.user.username);
+          localStorage.setItem("userRoleId", res.data.user.userRoleId);
+          localStorage.setItem("avatar", res.data.user.avatar);
+          SetToken(res.data.token, res.data.refreshToken);
+          this.$message({ type: "success", message: res.msg });
+          // this.$router.push("/index/detailed");
+          this.$router.go(0)
+        } else {
+          this.$notify.error({
+            title: '系统提示',
+            message: res.msg
+          })
+        }
+      }).catch(
+        err => {
+          console.log(err);
+        }
+      )
+
+    },
+    //注册
+    signUpClick() {
+
+    },
+    ///重置
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   },
   mounted() {
