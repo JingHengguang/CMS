@@ -1,24 +1,24 @@
 <template>
   <div class="loginContainer">
-    <el-card header="欢迎登录文章管理系统">
-      <el-form :model="formData" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"
-        label-position="left" @keyup.enter.native="submitForm('ruleForm')">
-
-        <el-form-item label="用户名" prop="username">
+    <el-card header="欢迎登录文章管理系统" style="text-align: center; ">
+      <el-form  style="font-size: 20px;" :model="formData" status-icon :rules="rules" ref="ruleForm" 
+      label-width="100px"   
+      @keyup.enter.native="submitForm('ruleForm')">
+        
+        <el-form-item label="账  号:" prop="username">
           <el-input type="text" v-model="formData.username" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="formData.password"></el-input>
+        <el-form-item label="密  码:" prop="password">
+          <el-input type="password" show-password v-model="formData.password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button class="loginBtn" type="primary" @click="submitForm('ruleForm')">登录</el-button>
-
           <!-- <el-button type="success" @click="resetForm('ruleForm')">注册</el-button> -->
 
         </el-form-item>
       </el-form>
     </el-card>
-    <!-- <el-button @click="resetForm('ruleForm')" style=";">注册</el-button>    -->
+
   </div>
 </template>
 
@@ -50,9 +50,7 @@ export default {
         if (valid) {
           login(this.formData)
             .then((res) => {
-              // console.log(res);
               if (res.code === 200 && res.data.user.userRoleId!=3) {
-
                   localStorage.setItem("username", res.data.user.username);
                   localStorage.setItem("id", res.data.user.id);
                   localStorage.setItem("userRoleId", res.data.user.userRoleId);
@@ -81,16 +79,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .loginContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content:end ;
   height: 100vh;
   width: 100vw;
-
-
-  background-image: url("../assets/login3.webp");
+  background-image: url("../assets/login.jpg");
   background-repeat: no-repeat;
   background-size: 100%, 100%;
   background-attachment: fixed;
@@ -100,8 +96,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 25px;
-
 }
 
 .el-card__body {
@@ -111,28 +105,17 @@ export default {
 .el-card,
 .el-message {
   border-radius: 20px;
-  background-color: rgba(46, 55, 182, 0.3);
-}
-
-.el-input__inner {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(194, 197, 236, 0.3);
+  border-color:  black;
+  border-width: 2px;
+  margin-right: 40px;
 }
 
 .loginBtn {
   width: 200px;
-  background: green;
+  background: black;
 }
-
-.el-form-item__label {
+*{
   font-size: 20px;
-}
-
-.demo-ruleForm {
-  /* display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center; */
-  text-align: center;
-  margin: auto;
 }
 </style>

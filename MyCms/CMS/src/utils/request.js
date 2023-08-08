@@ -5,7 +5,7 @@ import { getToken } from '../utils/auth'
 //创建axios实例
 const instance = axios.create({
 
-    baseURL: 'http://localhost:5000/',
+    baseURL: 'http://localhost:5000//',
     //设置请求超时时间 
     timeout: 6000,
 })

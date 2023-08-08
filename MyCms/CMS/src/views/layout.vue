@@ -9,14 +9,16 @@
     <!-- 头部 -->
     <el-header style="height: 60px;">
       <!-- 图标和标题 -->
-      <div>
-        <img style="height: 50px;" src="../assets/blog.png" alt="">
-        <el-link :underline="false">酸菜鱼科技</el-link>
-      </div>
-
+     
+      <el-menu mode="horizontal" >    
+        <el-menu-item >  
+          <span :underline="false"> <img  height="60px" src="../assets/blog.png" alt=""> 酸菜鱼科技</span>
+        </el-menu-item>
+      </el-menu>
+      
 
       <!-- 主菜单栏 -->
-      <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect" active-text-color="#1183FB">
+      <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect" active-text-color="#1183FB">    
         <el-menu-item index="1">首页</el-menu-item>
         <el-menu-item index="2">消息中心2</el-menu-item>
         <el-menu-item index="3">消息中心3</el-menu-item>
@@ -50,7 +52,7 @@
 
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>修改头像</el-dropdown-item>
+                <el-dropdown-item @click.native="handlelUpdateAvatar">修改头像</el-dropdown-item>
                 <el-dropdown-item @click.native="handlelUpdatePwd">修改密码</el-dropdown-item>
                 <el-dropdown-item @click.native="handlelogout">注销登录</el-dropdown-item>
               </el-dropdown-menu>
@@ -61,6 +63,39 @@
 
         <!-- <span v-if="islogin">admin</span> -->
       </div>
+
+      <!-- Dialog对话框 -->
+      <el-dialog title="修改头像" :visible.sync="visibleAvatar">
+
+        
+             <!-- 头像 -->
+             <el-form label-width="100px">
+
+                <el-form-item label="原头像:">
+                    <img class="updateAvatarFile" :src="AvatarUrl" alt="头像加载失败...">
+                </el-form-item>
+
+                <el-form-item label="新头像：" label-width="100px" style="margin-top: 20px">
+                    <el-upload list-type="picture-card" :action="uploadAvatarUrl" :auto-upload="true" :limit="limit"
+                        :multiple="false" :show-file-list="true" :on-preview="handlePictureCardPreview"
+                        :on-remove="handleRemove" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload"
+                        :on-exceed="handleExceed" :on-error="imgUploadError">
+
+                        <i class="el-icon-plus"></i>
+                    </el-upload>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-dialog :visible.sync="dialogVisibleImg">
+                        <img width="100%" :src="dialogImageUrl" alt="">
+                    </el-dialog>
+                </el-form-item>
+            </el-form>
+
+          <el-button type="primary" @click="handleSave">确 定</el-button>
+
+      </el-dialog>
+
     </el-header>
 
     <el-container>
@@ -100,7 +135,7 @@
           <div class="text">扫码微信群</div>
           <div class="text">扫码进QQ群</div>
           <div class="ICP">豫ICP备2020035082号-1</div>
-          <div class="Police">
+          <!-- <div class="Police">
             <img src="../assets/备案图标(1).png" alt />
             <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41142202000050" style="
                   display: inline-block;
@@ -113,7 +148,7 @@
                 豫公网安备 41170202000372号
               </p>
             </a>
-          </div>
+          </div> -->
 
 
 
@@ -225,16 +260,33 @@ export default {
   name: "Banner",
   data() {
     return {
+
+      //修改头像模态框
+      visibleAvatar: false,
       // 默认选中首页
       activeIndex: '1',
-
       //用户名
       username: "",
       //头像地址
       avatarUrl: "",
+      //上传头像地址
+      uploadAvatarUrl: "http://localhost:5000/Files/uploadAvatar",
 
       islogin: false,
       drawer: false,
+
+      formData: {
+        id: 0,
+        name: " ",
+        password: " ",
+        userPhoneNumber: " ",
+        avatar: "",
+        age: 0,
+        gender: "",
+        remarks: "",
+        qqNumber: "",
+        weChat: "",
+      },
 
       //登录时间
       loginTime: "",
@@ -266,6 +318,10 @@ export default {
     }
   },
   methods: {
+    //判断是否有token
+    isToken(tokenOK) {
+      this.islogin = tokenOK;
+    },
     // 菜单栏选择时触发
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
@@ -283,7 +339,49 @@ export default {
           console.log(_);
         });
     },
+    //修改头像
+    handlelUpdateAvatar() {
+      this.visibleAvatar = true;
+      this.formData.id = 0;
+      this.formData.avatar = 'http://localhost:5000/files/avatarPath?avatarUrl=' + this.avatarUrl;
 
+      console.log(this.formData);
+    },
+
+    //上传成功后
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      if (res.code == 200) {
+        this.avatarUrl = "http://localhost:5000/Files/avatarPath?avatarUrl=" + res.data;
+        this.formData.avatar = res.data;
+        this.$message.success('图片上传成功!');
+      } else {
+        this.$message.error('头像上传失败，请重新上传！');
+      }
+    },
+    //上传前
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
+
+    // 模态框取消按钮
+    handleCancel() {
+      console.log("1231231212");
+      this.visibleAvatar = false;
+    },
+    // 模态框保存按钮
+    handleSave() {
+      this.visibleAvatar = false;
+    },
     // --------------
     //获取当前时间
     currentTime(date) {
@@ -296,10 +394,7 @@ export default {
       this.loginTime = year + "-" + month + "-" + day + "\t" + hours + ":" + minutes + ":" + seconds
     },
 
-    //判断是否有token
-    isToken(tokenOK) {
-      this.islogin = tokenOK;
-    },
+
     //拉取推荐的文章
     recommend() {
       recArticle()
@@ -359,7 +454,7 @@ export default {
   computed: {
     ///获取头像
     avatarUrlFull() {
-      return 'http:localhost:5000/files/avatarPath?avatarUrl='+this.avatarUrl;
+      return 'http://localhost:5000/files/avatarPath?avatarUrl=' + this.avatarUrl;
     },
   },
   created() {
@@ -372,6 +467,7 @@ export default {
 
     this.isToken(tokenOK);
   },
+  //完成模版渲染后执行 
   mounted() {
     this.username = getUsername();
     this.avatarUrl = getAvatar();
@@ -387,7 +483,7 @@ export default {
     };
     //文章推荐
     this.recommend();
-    //48小时文章阅读
+    // 48小时文章阅读
     this.readed();
 
     this.RotationList();
@@ -448,274 +544,298 @@ body {
 
 
 /* 下拉菜单 */
-.el-dropdown-link {
+.el-dropdown-link ,.el-menu--horizontal>.el-menu-item {
   /* cursor: pointer; */
   // color: white;
   font-size: 20px;
 }
 
-
-
-// --------------------
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
 }
 
-td {
-  padding: 1px !important;
-  text-align: center;
-  border-bottom: none;
-}
-
-.cell {
-  text-align: center;
-}
-
-.el-link {
-  font-size: 19px;
-}
-
-a:hover {
-  color: #606266 !important;
-}
-
-.left {
-  margin-left: 5px;
-  width: calc(100vw - 347px);
-  float: left;
-  height: 400px;
-}
-
-.right {
-  float: left;
-  width: 320px !important;
-  background-color: rgba(207, 207, 207, 0.158);
-  /* height: 100% !important; */
-}
-
-.bottom {
-  float: left;
-  width: calc(100vw - 18px) !important;
-  padding: 0px;
-  background-color: rgba(207, 207, 207, 0.158);
-}
-
-.bottom .image {
-  width: 150px;
-  height: 150px;
-}
-
-
-.login {
-  width: 72px;
-  height: 40px;
-  float: right;
-  margin-right: 20px;
-  font-size: 17px;
-  margin-top: 10px !important;
-}
-
-
-
-.el-tabs {
-  height: 800px;
-}
-
-
-.el-tabs__item {
-  /* width: 297.8px !important; */
-  font-size: 40px;
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
   text-align: center;
 }
 
-/* 48小时阅读排行 */
-.one {
-  margin-left: 0 !important;
-  background-color: rgba(207, 207, 207, 0.158);
-  text-align: left;
-  font-size: 21px;
-  border: 1.5px solid rgba(207, 207, 207, 0.158) !important;
-  border-radius: 7px;
-  margin-top: 50px;
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 
-.one p {
-  padding: 3px;
-  margin: 3px;
-  width: 160px !important;
-  float: left;
-}
 
-.one button {
-  float: right;
-  margin-right: 8px;
-  margin-top: 4px;
-  font-size: 16px;
-  background-color: rgba(207, 207, 207, 0);
-}
+// ---------------------------------------------------------------------------------
+// .el-carousel__item:nth-child(2n) {
+//   background-color: #99a9bf;
+// }
 
-.table1 {
-  border-bottom: none !important;
-}
+// .el-carousel__item:nth-child(2n+1) {
+//   background-color: #d3dce6;
+// }
 
-.el-table {
-  margin-top: 40px;
-  border-left: none !important;
-  border-right: none !important;
-  border-bottom: none !important;
-  font-size: 19px;
-}
+// td {
+//   padding: 1px !important;
+//   text-align: center;
+//   border-bottom: none;
+// }
 
-.el-table td,
-.el-table th.is-leaf {
-  border-bottom: none;
-  background-color: rgba(207, 207, 207, 0.158);
-  border-top: 1.3px solid rgba(207, 207, 207, 0.158) !important;
-}
+// .cell {
+//   text-align: center;
+// }
 
-.el-table::before {
-  height: 0px;
-}
 
-.el-table__row {
-  padding: 0px !important;
-  height: 35px;
-}
 
-.gengduo1 {
-  margin-top: 5px;
-}
+// a:hover {
+//   color: #606266 !important;
+// }
 
-/* 10天编辑推荐 */
-.two {
-  margin-left: 0 !important;
-  background-color: rgba(207, 207, 207, 0.158);
-  text-align: left;
-  font-size: 21px;
-  border: 1.5px solid rgba(207, 207, 207, 0.158) !important;
-  border-radius: 7px;
-  margin-top: 50px;
-}
+// .left {
+//   margin-left: 5px;
+//   width: calc(100vw - 347px);
+//   float: left;
+//   height: 400px;
+// }
 
-.two p {
-  padding: 3px;
-  margin: 3px;
-  width: 160px !important;
-  float: left;
-}
+// .right {
+//   float: left;
+//   width: 320px !important;
+//   background-color: rgba(207, 207, 207, 0.158);
+//   /* height: 100% !important; */
+// }
 
-.two button {
-  float: right;
-  margin-right: 8px;
-  margin-top: 4px;
-  font-size: 16px;
-  background-color: rgba(207, 207, 207, 0);
-}
+// .bottom {
+//   float: left;
+//   width: calc(100vw - 18px) !important;
+//   padding: 0px;
+//   background-color: rgba(207, 207, 207, 0.158);
+// }
 
-.table2 {
-  border-bottom: none !important;
-}
+// .bottom .image {
+//   width: 150px;
+//   height: 150px;
+// }
 
-/* 10天评论排行文章 */
-.three {
-  margin-left: 0 !important;
-  background-color: rgba(207, 207, 207, 0.158);
-  text-align: left;
-  font-size: 21px;
-  border: 1.5px solid rgba(207, 207, 207, 0.158) !important;
-  border-radius: 7px;
-  margin-top: 50px;
-}
 
-.three p {
-  padding: 3px;
-  margin: 3px;
-  width: 180px !important;
-  float: left;
-}
+// .login {
+//   width: 72px;
+//   height: 40px;
+//   float: right;
+//   margin-right: 20px;
+//   font-size: 17px;
+//   margin-top: 10px !important;
+// }
 
-.three button {
-  float: right;
-  margin-right: 8px;
-  margin-top: 4px;
-  font-size: 16px;
-  background-color: rgba(207, 207, 207, 0);
-}
 
-.table3 {
-  border-bottom: none !important;
-}
 
-/* row总样式 */
-// .el-footer {
+// .el-tabs {
+//   height: 800px;
+// }
+
+
+// .el-tabs__item {
+//   /* width: 297.8px !important; */
+//   font-size: 40px;
+//   text-align: center;
+// }
+
+// /* 48小时阅读排行 */
+// .one {
+//   margin-left: 0 !important;
+//   background-color: rgba(207, 207, 207, 0.158);
+//   text-align: left;
+//   font-size: 21px;
+//   border: 1.5px solid rgba(207, 207, 207, 0.158) !important;
+//   border-radius: 7px;
+//   margin-top: 50px;
+// }
+
+// .one p {
+//   padding: 3px;
+//   margin: 3px;
+//   width: 160px !important;
+//   float: left;
+// }
+
+// .one button {
+//   float: right;
+//   margin-right: 8px;
+//   margin-top: 4px;
+//   font-size: 16px;
+//   background-color: rgba(207, 207, 207, 0);
+// }
+
+// .table1 {
+//   border-bottom: none !important;
+// }
+
+// .el-table {
+//   margin-top: 40px;
+//   border-left: none !important;
+//   border-right: none !important;
+//   border-bottom: none !important;
+//   font-size: 19px;
+// }
+
+// .el-table td,
+// .el-table th.is-leaf {
+//   border-bottom: none;
+//   background-color: rgba(207, 207, 207, 0.158);
+//   border-top: 1.3px solid rgba(207, 207, 207, 0.158) !important;
+// }
+
+// .el-table::before {
+//   height: 0px;
+// }
+
+// .el-table__row {
+//   padding: 0px !important;
+//   height: 35px;
+// }
+
+// .gengduo1 {
+//   margin-top: 5px;
+// }
+
+// /* 10天编辑推荐 */
+// .two {
+//   margin-left: 0 !important;
+//   background-color: rgba(207, 207, 207, 0.158);
+//   text-align: left;
+//   font-size: 21px;
+//   border: 1.5px solid rgba(207, 207, 207, 0.158) !important;
+//   border-radius: 7px;
+//   margin-top: 50px;
+// }
+
+// .two p {
+//   padding: 3px;
+//   margin: 3px;
+//   width: 160px !important;
+//   float: left;
+// }
+
+// .two button {
+//   float: right;
+//   margin-right: 8px;
+//   margin-top: 4px;
+//   font-size: 16px;
+//   background-color: rgba(207, 207, 207, 0);
+// }
+
+// .table2 {
+//   border-bottom: none !important;
+// }
+
+// /* 10天评论排行文章 */
+// .three {
+//   margin-left: 0 !important;
+//   background-color: rgba(207, 207, 207, 0.158);
+//   text-align: left;
+//   font-size: 21px;
+//   border: 1.5px solid rgba(207, 207, 207, 0.158) !important;
+//   border-radius: 7px;
+//   margin-top: 50px;
+// }
+
+// .three p {
+//   padding: 3px;
+//   margin: 3px;
+//   width: 180px !important;
+//   float: left;
+// }
+
+// .three button {
+//   float: right;
+//   margin-right: 8px;
+//   margin-top: 4px;
+//   font-size: 16px;
+//   background-color: rgba(207, 207, 207, 0);
+// }
+
+// .table3 {
+//   border-bottom: none !important;
+// }
+
+// /* row总样式 */
+// // .el-footer {
+// //   width: 100vm !important;
+// //   margin-top: 30px !important;
+// // }
+
+// .el-row {
+//   margin-top: auto;
+//   width: 100vm;
+//   margin-left: 0px !important;
+// }
+
+// /* 联系我们样式 */
+// .EWM {
 //   width: 100vm !important;
-//   margin-top: 30px !important;
+//   display: -webkit-flex;
+//   display: flex;
+//   -webkit-justify-content: space-around;
+//   justify-content: space-around;
+//   margin-top: 40px !important;
 // }
 
-.el-row {
-  margin-top: auto;
-  width: 100vm;
-  margin-left: 0px !important;
-}
+// // .block {
+// //   width: 150px !important;
+// //   height: 350px !important;
+// // }
 
-/* 联系我们样式 */
-.EWM {
-  width: 100vm !important;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-justify-content: space-around;
-  justify-content: space-around;
-  margin-top: 40px !important;
-}
-
-.block {
-  width: 150px !important;
-  height: 350px !important;
-}
-
-.image {
-  margin-top: auto;
-}
-
-.text {
-  margin-left: 35px;
-}
-
-.gongzhong {
-  height: 150px;
-  width: 150px !important;
-}
-
-.weixin {
-  height: 150px;
-  width: 150px !important;
-}
-
-.qq {
-  height: 150px;
-  width: 150px !important;
-}
-
-/* 底部 */
-// .el-footer .el-row {
-//   margin-top: 10px;
+// .image {
+//   margin-top: auto;
 // }
 
-.ICP {
-  text-align: center;
-}
+// .text {
+//   margin-left: 35px;
+// }
 
-.Police {
-  text-align: center;
-}
+// .gongzhong {
+//   height: 150px;
+//   width: 150px !important;
+// }
 
-.el-image__error,
-.el-image__placeholder {
-  width: 100%;
-  height: 100%;
-}
+// .weixin {
+//   height: 150px;
+//   width: 150px !important;
+// }
+
+// .qq {
+//   height: 150px;
+//   width: 150px !important;
+// }
+
+// /* 底部 */
+// // .el-footer .el-row {
+// //   margin-top: 10px;
+// // }
+
+// .ICP {
+//   text-align: center;
+// }
+
+// .Police {
+//   text-align: center;
+// }
+
+// .el-image__error,
+// .el-image__placeholder {
+//   width: 100%;
+//   height: 100%;
+// }
 </style>

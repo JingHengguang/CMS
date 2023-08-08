@@ -26,7 +26,7 @@ export default {
         currentPage: 1,
         totalSize: 0,
       },
-      src: "http://localhost:5000/files/picPath?picUrl=",
+      src: "http://localhost:5000//files/picPath?picUrl=",
     };
   },
   methods: {

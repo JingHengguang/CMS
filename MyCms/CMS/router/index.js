@@ -15,9 +15,9 @@ let router = new VueRouter({
 router.beforeEach((to,from,next)=>{
         
          document.title = to.meta.title;   
-
-            console.log(to.path);
-            console.log(from);
+          
+            // console.log(to.path);
+            // console.log(from);
             next();
 
             //判断是否登录
